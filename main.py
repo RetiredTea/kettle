@@ -17,7 +17,7 @@ p1,p2,p3 = None , None , None
 
 ruf_index = 0
 window_color = (0, 0.20, 0.20, 1)
-Window.clearcolor = window_color 
+Window.clearcolor = window_color
 btn_color = (0, 0.6, 0.9, 1)
 Window.size = (300, 600)
 
@@ -43,7 +43,8 @@ class MainScr(Screen):
         self.btn = Button(text = "Next")
         self.btn.background_color = btn_color
         self.btn.on_press = self.next
-
+        self.on_enter = self.clean_text_input
+        
 
         
         main_bl = BoxLayout(orientation="vertical")
@@ -75,51 +76,12 @@ class MainScr(Screen):
         else :
             self.manager.transition.direction = 'left'
             self.manager.current = '2'
+    
+    def clean_text_input(self):
+        self.user_name.text = ""
+        self.user_age.text = ""
+        Window.clearcolor = window_color
 
-
-
-class Color(Screen):
-    def __init__(self,**kwargs):
-        super().__init__(**kwargs)
-        txt = Label(text = "Выберите цветовую схему: ")
-        self.btn1 = Button(text = "Черная тема")
-        self.btn2 = Button(text = "Белая тема")
-        self.btn1.on_press = self.next1
-        self.btn2.on_press = self.next2
-
-        main_bl = BoxLayout(orientation="vertical")
-        bl = BoxLayout(size_hint=(1,.08))
-        bl2 = BoxLayout(size_hint=(1,.08))
-
-
-        bl.add_widget(self.btn1)
-        bl2.add_widget(self.btn2)
-
-        main_bl.add_widget(bl)
-        main_bl.add_widget(bl2)
-        self.add_widget(main_bl)
-
-
-    def next1(self):
-        global window_color
-        global btn_color
-        window_color = (0, 0, 0, 0)
-        btn_color = (255, 255, 255, 0)
-
-
-        self.manager.transition.direction = 'left'
-        self.manager.current = 'main'
-
-
-
-    def next2(self):
-        global window_color
-        global btn_color
-        window_color = (255, 255, 255, 0)
-        btn_color = (0, 0, 0, 0)
-        self.manager.transition.direction = 'left'
-        self.manager.current = 'main'
-        
 
 
 
@@ -132,7 +94,10 @@ class Scr2(Screen):
         self.btn = Button(text = "Start")
         self.btn.on_press = self.next
         self.lbl_sec = Seconds(15)
-        
+        self.on_enter = self.clean_text_input
+
+
+
         main_bl = BoxLayout(orientation="vertical")
         bl1 = BoxLayout(orientation="vertical" , size_hint=(1,.56))
         bl2 = BoxLayout(size_hint=(1,.08))
@@ -166,9 +131,15 @@ class Scr2(Screen):
             else:
                 self.manager.transition.direction = 'left'
                 self.manager.current = '3'
-    def clean(self):
-        self.user_
-
+    
+    def clean_text_input(self):
+        self.pulse.text = ""
+        self.btn.text = "Start"
+        Window.clearcolor = window_color
+        
+        
+        
+        
 
 class Scr3(Screen):
     def __init__(self,**kwargs):
@@ -178,6 +149,9 @@ class Scr3(Screen):
         self.btn.on_press = self.next
         self.btn.background_color = btn_color
         self.lbl_sec = Seconds(15)
+        self.on_enter = self.clean_text_input
+        
+        
         main_bl = BoxLayout(orientation="vertical")
         bl1 = BoxLayout(orientation="vertical" , size_hint=(1,.60))
         bl2 = BoxLayout(size_hint=(1,.10))
@@ -199,6 +173,11 @@ class Scr3(Screen):
         else :
             self.manager.transition.direction = 'left'
             self.manager.current = '4'
+    def clean_text_input(self):
+        self.btn.text = "Start"
+        Window.clearcolor = window_color
+        
+        
 
 class Scr4(Screen):
     def __init__(self,**kwargs):
@@ -211,6 +190,7 @@ class Scr4(Screen):
         self.btn = Button(text = "Next")
         self.btn.on_press = self.next
         self.btn.background_color = btn_color
+        self.on_enter = self.clean_text_input
         
         
         main_bl = BoxLayout(orientation="vertical")
@@ -241,7 +221,10 @@ class Scr4(Screen):
             p3 = get_num(self.pulse3.text)
             self.manager.transition.direction = 'left'
             self.manager.current = '5'
-
+    def clean_text_input(self):
+        self.pulse2.text = ""
+        self.pulse3.text = ""
+        Window.clearcolor = window_color
 
 
 
@@ -249,7 +232,7 @@ class Scr5(Screen):
     def __init__(self,**kwargs):
         super().__init__(**kwargs) # имя экрана должно передаваться конструктору класса Screen
         self.txt = Label(text = "")
-        self.btn = Button(text = "back")
+        self.btn = Button(text = "rebut")
         self.btn.on_press = self.back
         self.btn.background_color = btn_color
         main_bl = BoxLayout(orientation="vertical")
@@ -264,18 +247,14 @@ class Scr5(Screen):
     def index_ruffier(self):
         ir = (4*(p1+p2+p3)-200)/10
         self.txt.text = txt_ending +str(ir)
-
-
-
-
-
     def back(self):
         self.manager.transition.direction = 'right'
         self.manager.current = 'main'
         global p1 
         global p2 
         global p3
-
+    def clean_text_input(self):
+        Window.clearcolor = window_color
 
 
 
@@ -284,7 +263,6 @@ class Scr5(Screen):
 class MyApp(App):
     def build(self):
         sm = ScreenManager()
-        sm.add_widget(Color(name='color'))
         sm.add_widget(MainScr(name='main'))
         sm.add_widget(Scr2(name='2'))
         sm.add_widget(Scr3(name="3"))
