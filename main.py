@@ -16,7 +16,8 @@ name = None
 p1,p2,p3 = None , None , None
 
 ruf_index = 0
-Window.clearcolor = (0, 0.20, 0.20, 1)
+window_color = (0, 0.20, 0.20, 1)
+Window.clearcolor = window_color 
 btn_color = (0, 0.6, 0.9, 1)
 Window.size = (300, 600)
 
@@ -74,6 +75,51 @@ class MainScr(Screen):
         else :
             self.manager.transition.direction = 'left'
             self.manager.current = '2'
+
+
+
+class Color(Screen):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        txt = Label(text = "Выберите цветовую схему: ")
+        self.btn1 = Button(text = "Черная тема")
+        self.btn2 = Button(text = "Белая тема")
+        self.btn1.on_press = self.next1
+        self.btn2.on_press = self.next2
+
+        main_bl = BoxLayout(orientation="vertical")
+        bl = BoxLayout(size_hint=(1,.08))
+        bl2 = BoxLayout(size_hint=(1,.08))
+
+
+        bl.add_widget(self.btn1)
+        bl2.add_widget(self.btn2)
+
+        main_bl.add_widget(bl)
+        main_bl.add_widget(bl2)
+        self.add_widget(main_bl)
+
+
+    def next1(self):
+        global window_color
+        global btn_color
+        window_color = (0, 0, 0, 0)
+        btn_color = (255, 255, 255, 0)
+
+
+        self.manager.transition.direction = 'left'
+        self.manager.current = 'main'
+
+
+
+    def next2(self):
+        global window_color
+        global btn_color
+        window_color = (255, 255, 255, 0)
+        btn_color = (0, 0, 0, 0)
+        self.manager.transition.direction = 'left'
+        self.manager.current = 'main'
+        
 
 
 
@@ -238,6 +284,7 @@ class Scr5(Screen):
 class MyApp(App):
     def build(self):
         sm = ScreenManager()
+        sm.add_widget(Color(name='color'))
         sm.add_widget(MainScr(name='main'))
         sm.add_widget(Scr2(name='2'))
         sm.add_widget(Scr3(name="3"))
